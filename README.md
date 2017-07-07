@@ -11,5 +11,5 @@ as we have setup the desired state for service as 1..so it always persist that.
 Same thing applies to all scaled containers....if we setup the backup as 5 containers ..master distribute the tasks
 in master and attached agents.
 
-so deleting any one of these wl again create ...even if any failure or stop in vm also...
+so deleting any one of these wl again create the tasks ...even on any failure or stop in vm's.
 
