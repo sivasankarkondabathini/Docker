@@ -1,0 +1,74 @@
+
+From Manager vm:
+	docker swarm init --advertise-addr 192.168.56.102
+	Swarm initialized: current node (34v6629j3mrg81vwvfkx3fkxg) is now a manager.
+
+	To add a worker to this swarm, run the following command:
+
+    	docker swarm join \
+    	--token SWMTKN-1-3tbj8kf9bv4cn9h7lza6xzjxykslzhisyh7hsr0a645m62o40r-4c9srj9hlmix3d4uparxn6us9 \
+   	 192.168.56.102:2377
+
+	To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+To see the token again type this:
+
+	docker swarm join-token worker
+
+generate new token:
+	docker swarm join-token --rotate worker
+
+From agent vm:
+	docker swarm join \
+  	  --token SWMTKN-1-3tbj8kf9bv4cn9h7lza6xzjxykslzhisyh7hsr0a645m62o40r-4c9srj9hlmix3d4uparxn6us9 \
+  	  192.168.56.102:2377
+
+
+Check the swarm mode on nodes using:
+	docker info
+	docker node ls
+	docker service create --name first_image --replicas 1 ubuntu:14.04 --detach=false 
+	docker service ls
+	docker service ps <service-name>
+	docker service inspect --pretty <service-name>
+
+To scale the service to many containers...
+	docker service scale helloworld=5
+
+docker service rm <s-name>
+
+To update the service version...
+	docker service update --image redis:3.0.7 redis
+
+	This will update all the serviceses in all containers.
+
+	docker service update helloworld --update-delay 5s
+	Any updates take place after 5sec time.
+
+Drain(stop) the active node 
+	docker node ls
+	docker node update --availability drain worker1
+
+or manually disconnect it
+
+	docker node update --availability active worker1
+
+Assign port to service:
+	docker service create --name my-web --publish 8080:80 --replicas 2 nginx
+
+edit for existed service:
+	docker service update --publish-add <PUBLISHED-PORT>:<TARGET-PORT> <SERVICE>
+
+To use Docker UI (portainer is a simple web ui for monitoring docker and docker swarm)
+1. https://portainer.io
+
+docker service create \
+--name portainer \
+--publish 9000:9000 \
+--constraint 'node.role == manager' \
+--mount type=bind,src=//var/run/docker.sock,dst=/var/run/docker.sock \
+--mount type=bind,src=//root/Desktop,dst=/data \
+  portainer/portainer \
+-H unix:///var/run/docker.sock
+
+This will create a task for docker ui(portainer) service in a container and just access the port ..it will show the web ui with all docker details..
