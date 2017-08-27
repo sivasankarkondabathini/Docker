@@ -1,4 +1,4 @@
-hi Hello World !
+Hello World !
 
 From Manager vm:
 	docker swarm init --advertise-addr 192.168.56.102
