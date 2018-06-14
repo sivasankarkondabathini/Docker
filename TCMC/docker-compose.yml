@@ -1,0 +1,19 @@
+version: '2'
+services:
+  db:
+    container_name: db
+    image: mysql:5.5
+    environment:
+    - MYSQL_ROOT_PASSWORD=Welcome@1234
+    - MYSQL_USER=pranathi
+    - MYSQL_PASSWORD=Welcome@1234
+    - MYSQL_DATABASE=tcmc
+    volumes:
+    - "./db:/docker-entrypoint-initdb.d"
+  web:
+    container_name: web
+    build: "./web"
+    ports:
+    - 8080:8080
+    depends_on:
+      - db
