@@ -294,8 +294,14 @@
 			<groupId>com.sun</groupId>
 			<artifactId>tools</artifactId>
 			<version>${tools.version}</version>
-			<scope>system</scope>
-			<systemPath>${JAVA_HOME}\lib\tools.jar</systemPath>
+			<exclusions>
+        			<exclusion>
+            				<artifactId>tools</artifactId>
+            				<groupId>com.sun</groupId>
+        			</exclusion>
+    			</exclusions>
+			#<scope>system</scope>
+			#<systemPath>${JAVA_HOME}\lib\tools.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
