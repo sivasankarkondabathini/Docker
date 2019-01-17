@@ -1,0 +1,14 @@
+Create container for private docker registry using docker-compose
+
+registry:
+  restart: always
+  image: registry:2
+  ports:
+    - 0.0.0.0:5000:5000
+  environment:
+    REGISTRY_AUTH: htpasswd
+    REGISTRY_AUTH_HTPASSWD_REALM: "Registry Realm"
+    REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+  volumes:
+    - ./auth:/auth
+    - ./registry:/var/lib/registry
