@@ -1,4 +1,4 @@
-##Reference Doc
+Reference Doc
 [https://stackify.com/guide-docker-java/]
 
 ## Building
