@@ -1,0 +1,17 @@
+# Alpine Linux with OpenJDK JRE
+FROM openjdk:8-jre-alpine
+
+#Working directory inside container
+WORKDIR /app
+
+# copy WAR into image
+COPY ./target/spring-boot-app-0.0.1-SNAPSHOT.war /app/app.war
+
+# application port, looking at this user should know that application inside the container running at this prot
+EXPOSE 8081
+
+#volume
+VOLUME myvolume
+
+# run openjdk application process with this command
+CMD ["/usr/bin/java", "-jar", "-Dspring.profiles.active=default", "/app/app.war"]
