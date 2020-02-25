@@ -4,14 +4,14 @@ FROM openjdk:8-jre-alpine
 #Working directory inside container
 WORKDIR /app
 
-# copy WAR into image
+# copy binary WAR into image
 COPY ./target/spring-boot-app-0.0.1-SNAPSHOT.war /app/app.war
 
-# application port, looking at this user should know that application inside the container running at this prot
+# Expose a port inside the container, should be same as application port(preferred, as it tells which port application is using)
 EXPOSE 8081
 
-#volume
-VOLUME myvolume
+#create new docker volume for app directory, only used for backup and not for recovery as it creates new one everytime(not preferred)
+VOLUME /app
 
 # run openjdk application process with this command
 CMD ["/usr/bin/java", "-jar", "-Dspring.profiles.active=default", "/app/app.war"]
