@@ -21,3 +21,38 @@ sudo docker rmi $(sudo docker images --filter "dangling=true" -q --no-trunc)
 
 sudo docker rmi $(sudo docker images -a | grep "^<none>" | awk '{print $3}')
 
+
+## AWS ECS AND ECR
+ECR and ECS work independently.
+
+ECR:
+ECR can be used for a separate private docker registry
+ECR repository should be created for each docker image.
+
+
+ECS:
+ECS maintains the cluster of EC2 instances and run the task(desired state) using docker service(swarm) mode.
+
+Setup CICD with ECS:
+
+From AWS, we should create the cluster and define the task defintion which points to ECR repository.
+Create the service and provide the task definition with desired count. You should able to access the application.
+To update the service, we should explicitly update with update-service command.
+There are no triggers to update the service..like in OpenShift import-image to Image Stream updating DC..so, updating the docker image in ECR will not update the service automatically.
+
+We should always use this:
+ aws ecs update-service --service pearupweb --region eu-central-1 --cluster PearUp --desired-count 0
+ aws ecs update-service --service pearupweb --region eu-central-1 --cluster PearUp --desired-count 1
+
+Update the image in ECR, make the service desired count to 0 and update the service with original desired count.. so it will update with newly pushed image.
+
+See Jenkinsfile2 for waituntil method to keep alive the terminal to check the updated count.
+https://github.com/sivasankarkondabathini/PearUp/tree/master/PearUp.Web
+
+
+
+Ref:
+
+https://docs.aws.amazon.com/AWSGettingStartedContinuousDeliveryPipeline/latest/GettingStarted/CICD_Jenkins_Pipeline.html
+
+http://www.tothenew.com/blog/how-to-automate-docker-deployments-in-aws-ecs/
