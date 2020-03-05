@@ -9,7 +9,9 @@ services:
     ports:
       - 5000:5000
     volumes:
+      # using docker volume /var/lib/docker/volumes/
       - docker-registry-data:/var/lib/registry
+      # using local volume bind
       #- ./registry:/var/lib/registry
 
 volumes:
