@@ -1,0 +1,59 @@
+version: '2'
+services:
+  postgresql:
+    container_name: teamcity_postgresql
+    image: postgres:9.6
+    networks:
+      - teamcitynet
+    environment:
+      - POSTGRES_USER=teamcityuser
+      - POSTGRES_PASSWORD=teamcityuser
+    volumes:
+      - ./postgresql:/var/lib/postgresql
+      - ./postgresql/data:/var/lib/postgresql/data
+    restart: always
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 32000
+        hard: 40000
+
+  teamcity_server:
+    container_name: teamcity_server
+    image: jetbrains/teamcity-server
+    networks:
+      - teamcitynet
+    ports:
+    - 8111:8111
+    expose:
+    - "8081"
+    volumes:
+    - ./teamcity_server/datadir:/data/teamcity_server/datadir:z
+    - ./teamcity/logs:/opt/teamcity/logs:z
+    restart: always
+    environment:
+      - TEAMCITY_SERVER_MEM_OPTS="-Xmx1024m"
+
+  nginx:
+    container_name: nginx
+    image: nginx:1.17
+    ports:
+      - '80:80'
+      - '443:443'
+    depends_on:
+     - teamcity_server
+    networks:
+      - teamcitynet
+    volumes:
+      - ./nginx:/etc/nginx
+    restart: always
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 32000
+        hard: 40000
+
+networks:
+  teamcitynet:
+    driver: bridge
+

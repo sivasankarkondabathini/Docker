@@ -1,0 +1,21 @@
+version: '2'
+services:
+  teamcity_agent:
+    image: jetbrains/teamcity-agent
+    container_name: teamcity-agent1
+    #To make docker runs inside container
+    privileged: true
+    environment:
+    - SERVER_URL=http://172.42.42.101:8111
+    - AGENT_NAME=docker_agent1
+    volumes:
+    - ./teamcity_agent/conf:/data/teamcity_agent/conf:z
+    #To use host docker for dind purpose
+    - /var/run/docker.sock:/var/run/docker.sock:z
+    - ./buildagent/work:/opt/buildagent/work:z
+    - ./buildagent/temp:/opt/buildagent/temp:z
+    - ./buildagent/tools:/opt/buildagent/tools:z
+    - ./buildagent/plugins:/opt/buildagent/plugins:z
+    - ./buildagent/system:/opt/buildagent/system:z
+    restart: always
+
