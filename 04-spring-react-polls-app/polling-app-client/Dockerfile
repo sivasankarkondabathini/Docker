@@ -18,7 +18,8 @@ COPY . ./
 
 # Arguments
 ARG REACT_APP_API_BASE_URL
-ENV REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL}
+#ENV REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL}
+ENV REACT_APP_API_BASE_URL http://172.42.42.101:8080/api
 
 # Build the application
 RUN npm run build
@@ -35,5 +36,5 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # Expose port 3000 to the Docker host, so we can access it 
 # from the outside.
 EXPOSE 80
-
+#ENV REACT_APP_API_BASE_URL http://polling-app-server:8080/api
 ENTRYPOINT ["nginx","-g","daemon off;"]
