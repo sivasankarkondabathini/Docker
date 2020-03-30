@@ -1,0 +1,4 @@
+apiVersion: v1             # API version
+kind: Namespace            # Type of kubernetes resource
+metadata:
+  name: dev                # Name of the kubernetes resource
