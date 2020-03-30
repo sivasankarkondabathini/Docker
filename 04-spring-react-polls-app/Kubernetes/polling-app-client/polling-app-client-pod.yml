@@ -1,0 +1,12 @@
+apiVersion: v1              # API version
+kind: Pod                   # Type of kubernetes resource
+metadata:
+  name: polling-app-client  # Name of the kubernetes resource
+spec:                       # Spec for the containers that will run inside the Pods
+  containers:
+  - name: polling-app-client
+    image: xkonsiv/polling-app-client:latest
+    imagePullPolicy: IfNotPresent
+    ports:
+      - name: http
+        containerPort: 80   # Should match the Port that the container listens on
