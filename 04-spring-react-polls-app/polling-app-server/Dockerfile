@@ -33,4 +33,8 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
+ENV SPRING_DATASOURCE_URL jdbc:mysql://polling-app-mysql:3306/polls?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+ENV SPRING_DATASOURCE_USERNAME callicoder
+ENV SPRING_DATASOURCE_PASSWORD callicoder
+
 ENTRYPOINT ["java","-cp","app:app/lib/*","com.example.polls.PollsApplication"]
