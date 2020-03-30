@@ -1,0 +1,25 @@
+
+apiVersion: v1              # API version
+kind: Pod                   # Type of kubernetes resource
+metadata:
+  name: polling-app-server  # Name of the kubernetes resource
+spec:                       # Spec for the containers that will run inside the Pods
+  containers:
+  - name: polling-app-server
+    image: xkonsiv/polling-app-server:latest
+    imagePullPolicy: IfNotPresent
+    ports:
+      - name: http
+        containerPort: 8080   # Should match the Port that the container listens on
+    volumeMounts:
+    - name: polling-app-volume
+      mountPath: /vol
+    resources:
+      limits:
+        cpu: 0.2
+        memory: "10Mi"
+
+  volumes:
+  - name: polling-app-volume
+    hostPath:
+      path: /home/vagrant/vol
