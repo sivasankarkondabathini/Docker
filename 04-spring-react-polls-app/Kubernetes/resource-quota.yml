@@ -1,0 +1,12 @@
+apiVersion: v1              # API version
+kind: ResourceQuota         # Type of kubernetes resource
+metadata:
+  name: namespace-quota
+  namespace: dev            # Name of the kubernetes resource
+spec:                       # Spec for the containers that will run inside the Pods
+  hard:
+    pods: "10"
+    requests.cpu: "1"
+    requests.memory: "5Gi"
+    limits.cpu: "2"
+    limits.memory: "10Gi"
